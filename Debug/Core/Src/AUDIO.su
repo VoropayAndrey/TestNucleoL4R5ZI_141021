@@ -1,0 +1,10 @@
+AUDIO.c:96:13:ADC_Configuration	4	static
+AUDIO.c:132:23:readADC3	16	static
+AUDIO.c:168:6:AUDIO_I2S_IRQ_HANDLER	4	static
+AUDIO.c:326:12:SetVolume	24	static
+AUDIO.c:349:5:initializeAudio	24	static
+AUDIO.c:514:5:uninitializeAUDIO	4	static
+AUDIO.c:556:5:AUDIO_Set_Volume	24	static
+AUDIO.c:572:5:AUDIO_Get_Volume	4	static
+AUDIO.c:579:6:AUDIO_Reset_CODEC	4	static
+AUDIO.c:597:5:pauseResumeAudio	16	static

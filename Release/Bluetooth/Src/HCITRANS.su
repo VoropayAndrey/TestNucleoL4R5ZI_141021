@@ -1,0 +1,10 @@
+HCITRANS.c:189:6:EXTI3_IRQHandler	0	static
+HCITRANS.c:234:13:HCITR_COMOpen	24	static
+HCITRANS.c:311:14:HCITR_COMClose	24	static,ignoring_inline_asm
+HCITRANS.c:378:14:HCITR_COMReconfigure	0	static,ignoring_inline_asm
+HCITRANS.c:405:14:HCITR_COMProcess	24	static,ignoring_inline_asm
+HCITRANS.c:495:13:HCITR_COMWrite	32	static,ignoring_inline_asm
+HCITRANS.c:608:13:HCITR_COMSuspend	0	static,ignoring_inline_asm
+HCITRANS.c:667:13:HCITR_EnableDebugLogging	0	static
+HCITRANS.c:686:6:HAL_UARTEx_RxEventCallback	0	static
+HCITRANS.c:692:6:HAL_UARTEx_TxEventCallback	0	static

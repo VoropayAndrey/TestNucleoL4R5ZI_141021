@@ -1,0 +1,9 @@
+BTPSVEND.c:58:18:DownloadPatch.part.0	192	static
+BTPSVEND.c:123:19:HCI_VS_InitializeBeforeHCIOpen	0	static
+BTPSVEND.c:154:19:HCI_VS_InitializeAfterHCIOpen	0	static
+BTPSVEND.c:173:19:HCI_VS_InitializeBeforeHCIReset	0	static
+BTPSVEND.c:192:19:HCI_VS_InitializeAfterHCIReset	48	static
+BTPSVEND.c:283:19:HCI_VS_InitializeBeforeHCIClose	8	static
+BTPSVEND.c:324:19:HCI_VS_InitializeAfterHCIClose	0	static
+BTPSVEND.c:348:19:HCI_VS_EnableFeature	24	static
+BTPSVEND.c:428:19:HCI_VS_DisableFeature	24	static

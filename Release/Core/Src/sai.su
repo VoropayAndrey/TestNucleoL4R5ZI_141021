@@ -1,0 +1,3 @@
+sai.c:30:6:MX_SAI1_Init	8	static
+sai.c:82:6:HAL_SAI_MspInit	56	static
+sai.c:138:6:HAL_SAI_MspDeInit	8	static

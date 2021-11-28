@@ -1,0 +1,13 @@
+BTPSFILE.c:28:13:BTPS_Make_Directory	0	static
+BTPSFILE.c:38:19:BTPS_Delete_Directory	0	static
+BTPSFILE.c:48:19:BTPS_Delete_File	0	static
+BTPSFILE.c:66:32:BTPS_Open_File	0	static
+BTPSFILE.c:75:14:BTPS_Close_File	0	static
+BTPSFILE.c:93:19:BTPS_Seek_File	0	static
+BTPSFILE.c:109:19:BTPS_Read_File	0	static
+BTPSFILE.c:125:19:BTPS_Write_File	0	static
+BTPSFILE.c:142:37:BTPS_Open_Directory	0	static
+BTPSFILE.c:151:14:BTPS_Close_Directory	0	static
+BTPSFILE.c:181:19:BTPS_Get_Next_Directory_Entry	0	static
+BTPSFILE.c:194:19:BTPS_Query_Directory_Is_Root_Of_Drive	0	static
+BTPSFILE.c:214:19:BTPS_Query_File_Information	0	static

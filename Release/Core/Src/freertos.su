@@ -1,0 +1,5 @@
+freertos.c:256:12:DisplayCallback	16	static
+freertos.c:144:6:StartDefaultTask	8	static
+freertos.c:243:13:Sleep_Indication_Callback	0	static
+freertos.c:282:13:StartBluetoothAudioTask	72	static
+freertos.c:101:6:MX_FREERTOS_Init	8	static
