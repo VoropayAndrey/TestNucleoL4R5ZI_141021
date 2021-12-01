@@ -62,7 +62,7 @@ static char         Input[MAX_COMMAND_LENGTH];
 osThreadId_t btAudioTaskHandle;
 const osThreadAttr_t btAudioTask_attributes = {
   .name = "btAudioTask",
-  .stack_size = 512 * 4,
+  .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -74,8 +74,6 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
-
-
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -144,7 +142,7 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
+  //MX_USB_DEVICE_Init();
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
   for(;;)
@@ -288,7 +286,8 @@ static void StartBluetoothAudioTask(void *UserParameter)
   HCI_Driver_Reconfigure_Data_t DriverReconfigureData;
 
   /* Configure the UART Parameters. 								   */
-  HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 921600, cpHCILL_RTS_CTS);
+  //HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 921600, cpHCILL_RTS_CTS);
+  HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 2, 115200, cpHCILL_RTS_CTS);
   HCI_DriverInformation.DriverInformation.COMMDriverInformation.InitializationDelay = 100;
 
   /* Set up the application callbacks.								   */

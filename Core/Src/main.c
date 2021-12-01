@@ -107,7 +107,7 @@ int main(void)
   MX_LPUART1_UART_Init();
   MX_USART3_UART_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
+  //MX_ADC1_Init();
   MX_DAC1_Init();
   MX_I2C1_Init();
   MX_I2C2_Init();
@@ -122,6 +122,7 @@ int main(void)
   MX_CRC_Init();
   MX_RTC_Init();
   MX_FATFS_Init();
+  MX_SAI2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -213,9 +214,10 @@ void PeriphCommonClock_Config(void)
 
   /** Initializes the peripherals clock
   */
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_SAI1|RCC_PERIPHCLK_USB
-                              |RCC_PERIPHCLK_ADC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_SAI1|RCC_PERIPHCLK_SAI2
+                              |RCC_PERIPHCLK_USB|RCC_PERIPHCLK_ADC;
   PeriphClkInit.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLLSAI1;
+  PeriphClkInit.Sai2ClockSelection = RCC_SAI2CLKSOURCE_PLLSAI1;
   PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_PLLSAI1;
   PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLSAI1;
   PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_MSI;

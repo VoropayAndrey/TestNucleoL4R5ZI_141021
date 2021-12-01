@@ -20,6 +20,7 @@
 #include "stm32l4xx_hal_rcc.h"
 #include "stm32l4xx_hal_uart.h"
 #include "stm32l4xx_hal_uart_ex.h"
+#include "usart.h"
 
 #define INPUT_BUFFER_SIZE        1056
 #define OUTPUT_BUFFER_SIZE       1056
@@ -39,15 +40,15 @@
 #define ClearReset()             HAL_GPIO_WritePin(HCITR_RESET_GPIO_PORT, (1 << HCITR_RESET_PIN), GPIO_PIN_SET)
 #define SetReset()               HAL_GPIO_WritePin(HCITR_RESET_GPIO_PORT, (1 << HCITR_RESET_PIN), GPIO_PIN_RESET)
 
-#define EnableUartPeriphClock()  RCC->APB1ENR1 |= RCC_APB1ENR1_USART2EN
-#define DisableUartPeriphClock()  RCC->APB1RSTR1 &= ~RCC_APB1ENR1_USART2EN
+#define EnableUartPeriphClock()  	RCC->APB1ENR1 |= RCC_APB1ENR1_USART2EN
+#define DisableUartPeriphClock() 	RCC->APB1RSTR1 &= ~RCC_APB1ENR1_USART2EN
 
-#define USARTEnableTXInterrupt() HCITR_UART_BASE->CR1 |= USART_CR1_TXEIE_TXFNFIE
-#define USARTDisableTXInterrupt() HCITR_UART_BASE->CR1 &= ~USART_CR1_TXEIE_TXFNFIE
-#define USARTEnableRXInterrupt() HCITR_UART_BASE->CR1 |= USART_CR1_RXNEIE_RXFNEIE
-#define USARTDisableRXInterrupt() HCITR_UART_BASE->CR1 &= ~USART_CR1_RXNEIE_RXFNEIE
-#define USARTEnableCTSInterrupt() HCITR_UART_BASE->CR3 |= USART_CR3_CTSIE;
-#define USARTDisableCTSInterrupt() HCITR_UART_BASE->CR3 &= ~USART_CR3_CTSIE;
+#define USARTEnableTXInterrupt() 	HCITR_UART_BASE->CR1 |= USART_CR1_TXEIE_TXFNFIE
+#define USARTDisableTXInterrupt() 	HCITR_UART_BASE->CR1 &= ~USART_CR1_TXEIE_TXFNFIE
+#define USARTEnableRXInterrupt() 	HCITR_UART_BASE->CR1 |= USART_CR1_RXNEIE_RXFNEIE
+#define USARTDisableRXInterrupt() 	HCITR_UART_BASE->CR1 &= ~USART_CR1_RXNEIE_RXFNEIE
+#define USARTEnableCTSInterrupt() 	EXTI->IMR1 |= HCITR_CTS_EXTI_LINE//HCITR_UART_BASE->CR3 |= USART_CR3_CTSIE;
+#define USARTDisableCTSInterrupt()	EXTI->IMR1 &= ~HCITR_CTS_EXTI_LINE//HCITR_UART_BASE->CR3 &= ~USART_CR3_CTSIE;
 
 #define DisableInterrupts()      __set_PRIMASK(1)
 #define EnableInterrupts()       __set_PRIMASK(0)
@@ -127,6 +128,7 @@ static void TxInterrupt(void)
    {
       /* Place the next character into the output buffer.               */
       HCITR_UART_BASE->TDR = UartContext.TxBuffer[UartContext.TxOutIndex];
+      //HAL_UART_Transmit_IT(&huart2, &UartContext.TxBuffer[UartContext.TxOutIndex], 1);
       //printHex(UartContext.TxBuffer[UartContext.TxOutIndex], 1);
       //printString("\n");
       //printString("WriteDR\n");
@@ -163,6 +165,7 @@ static void RxInterrupt(void)
 
       /* Read a character from the port into the receive buffer         */
       UartContext.RxBuffer[UartContext.RxInIndex] = HCITR_UART_BASE->RDR;
+      //HAL_UART_Receive_IT(&huart2, &UartContext.RxBuffer[UartContext.RxInIndex], 1);
       //printHex(UartContext.RxBuffer[UartContext.RxInIndex], 1);
       //printString("\n");
       /* Update the count variables.                                    */
@@ -186,28 +189,30 @@ static void RxInterrupt(void)
    }
 }
 
-void HCITR_CTS_IRQ_HANDLER(void) {
-	//EXTI->PR |= EXTI_PR_PR9;
-	//printString("CTS\n");
-	if(UartContext.SuspendState == hssSuspended) {
-	  /* Resume the UART.                                               */
-	  EnableUartPeriphClock();
-	  SetSuspendGPIO(FALSE);
-	  UartContext.SuspendState = hssNormal;
-	} else {
-	  if(UartContext.SuspendState == hssSuspendWait) {
-		 /* Indicate the suspend is interrupted.                        */
-		 UartContext.SuspendState = hssSuspendWaitInterrupted;
-	  }
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if(GPIO_Pin == GPIO_PIN_3) {
+		//EXTI->PR |= EXTI_PR_PR9;
+		//printString("CTS\n");
+		if(UartContext.SuspendState == hssSuspended) {
+		  /* Resume the UART.                                               */
+		  EnableUartPeriphClock();
+		  SetSuspendGPIO(FALSE);
+		  UartContext.SuspendState = hssNormal;
+		} else {
+		  if(UartContext.SuspendState == hssSuspendWait) {
+			 /* Indicate the suspend is interrupted.                        */
+			 UartContext.SuspendState = hssSuspendWaitInterrupted;
+		  }
+		}
+		/* Enable the UART transmit interrupt if there is data in the buffer.*/
+		if(UartContext.TxBytesFree != OUTPUT_BUFFER_SIZE) {
+		   USARTEnableTXInterrupt();
+		   //TxInterrupt();
+		   //printString("USARTEnableTXInterrupt\n");
+		}
+		USARTEnableRXInterrupt();
+		FlowOn();
 	}
-	/* Enable the UART transmit interrupt if there is data in the buffer.*/
-	if(UartContext.TxBytesFree != OUTPUT_BUFFER_SIZE) {
-	   USARTEnableTXInterrupt();
-	   //TxInterrupt();
-	   //printString("USARTEnableTXInterrupt\n");
-	}
-	USARTEnableRXInterrupt();
-	FlowOn();
 	/*
 	printString("CR1:");
 	printHex(HCITR_UART_BASE->CR1, 2);
@@ -255,21 +260,19 @@ int BTPSAPI HCITR_COMOpen(HCI_COMMDriverInformation_t *COMMDriverInformation, HC
       UartContext.SuspendState             = hssNormal;
       //UartContext.DebugEnabled				= ENABLE;
 
+
       /* Enable the peripheral clocks for the UART and its GPIO.        */
       EnableUartPeriphClock();
       USARTDisableTXInterrupt();
       USARTDisableCTSInterrupt();
+
+      __HAL_UART_CLEAR_FLAG(&huart2, (UART_CLEAR_TCF | UART_CLEAR_TXFECF));
+
+      MX_USART2_UART_Init();
+      uint8_t byte = HCITR_UART_BASE->TDR;
       USARTEnableRXInterrupt();
       FlowOff();
 
-      HCITR_UART_BASE->ISR &= ~USART_ISR_RXNE_RXFNE;
-      HCITR_UART_BASE->ISR &= ~USART_ISR_ORE;
-      HCITR_UART_BASE->ISR &= ~USART_ISR_TC;
-      HCITR_UART_BASE->ISR &= ~USART_ISR_TXE_TXFNF;
-      HCITR_UART_BASE->CR1 &= ~USART_CR1_TCIE;
-      HCITR_UART_BASE->CR3 |= USART_CR3_EIE;
-      //CITR_UART_BASE->CR3 &= ~USART_CR3_SCEN;
-      HCITR_UART_BASE->CR3 &= ~USART_CR3_DMAT;
 
       SetReset();
       /* Clear the reset.                                               */
@@ -574,7 +577,7 @@ int BTPSAPI HCITR_COMWrite(unsigned int HCITransportID, unsigned int Length, uns
          /* is enabled.                                                 */
          DisableInterrupts();
          UartContext.TxBytesFree -= Count;
-         //HCITR_UART_BASE->DR = (UartContext.TxBuffer[UartContext.TxOutIndex]);
+         //HCITR_UART_BASE->TDR = (UartContext.TxBuffer[UartContext.TxOutIndex]);
          USARTEnableTXInterrupt();
          USARTEnableRXInterrupt();
          EnableInterrupts();
@@ -683,16 +686,32 @@ int BTPSAPI HCITR_EnableDebugLogging(Boolean_t Enable)
    return(ret_val);
 }
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+//	if(huart->Instance == USART2) {
+//		RxInterrupt();
+//	}
+//}
+//
+//void HAL_UARTEx_TxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+//	if(huart->Instance == USART2) {
+//		TxInterrupt();
+//	}
+//}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 	if(huart->Instance == USART2) {
-		RxInterrupt();
+			TxInterrupt();
 	}
 }
 
-void HAL_UARTEx_TxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if(huart->Instance == USART2) {
-		TxInterrupt();
+			RxInterrupt();
 	}
 }
 
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+
+}
 

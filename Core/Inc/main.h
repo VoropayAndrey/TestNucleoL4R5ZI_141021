@@ -69,12 +69,18 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
+#define B1_EXTI_IRQn EXTI15_10_IRQn
+#define HCI2_RTS_Pin GPIO_PIN_1
+#define HCI2_RTS_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_14
 #define LD3_GPIO_Port GPIOB
 #define STLK_RX_Pin GPIO_PIN_8
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
+#define HCI2_CTS_Pin GPIO_PIN_11
+#define HCI2_CTS_GPIO_Port GPIOD
+#define HCI2_CTS_EXTI_IRQn EXTI15_10_IRQn
 #define STLINK_TX_Pin GPIO_PIN_7
 #define STLINK_TX_GPIO_Port GPIOG
 #define STLINK_RX_Pin GPIO_PIN_8
@@ -97,6 +103,11 @@ void Error_Handler(void);
 #define SDIO_PLG_GPIO_Port GPIOD
 #define BT_HCI_RESET_Pin GPIO_PIN_1
 #define BT_HCI_RESET_GPIO_Port GPIOD
+#define HCI1_CTS_Pin GPIO_PIN_3
+#define HCI1_CTS_GPIO_Port GPIOD
+#define HCI1_CTS_EXTI_IRQn EXTI3_IRQn
+#define HCI1_RTS_Pin GPIO_PIN_4
+#define HCI1_RTS_GPIO_Port GPIOD
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 #define LD2_Pin GPIO_PIN_7
@@ -107,13 +118,13 @@ void Error_Handler(void);
 /* control command to send to a connected Bluetooth device.          */
 typedef enum
 {
-rcPlay,
-rcPause,
-rcPlayPause,
-rcNext,
-rcBack,
-rcVolumeUp,
-rcVolumeDown
+	rcPlay,
+	rcPause,
+	rcPlayPause,
+	rcNext,
+	rcBack,
+	rcVolumeUp,
+	rcVolumeDown
 } RemoteControlCommand_t;
 
 /* Bluetooth Protocol Demo Application Major Version Release Number.  */

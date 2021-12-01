@@ -25,7 +25,6 @@ usbd_conf.c:697:20:USBD_LL_SetUSBAddress	24	static
 usbd_conf.c:732:20:USBD_LL_Transmit	32	static
 usbd_conf.c:767:20:USBD_LL_PrepareReceive	32	static
 usbd_conf.c:800:10:USBD_LL_GetRxDataSize	16	static
-usbd_conf.c:809:6:HAL_GPIO_EXTI_Callback	16	static
 usbd_conf.c:823:6:HAL_PCDEx_LPM_Callback	16	static
 usbd_conf.c:858:6:USBD_LL_Delay	16	static
 usbd_conf.c:868:7:USBD_static_malloc	16	static

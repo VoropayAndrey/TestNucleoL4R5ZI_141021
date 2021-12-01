@@ -63,6 +63,8 @@
 #define HCITR_RESET_PORT         D
 #define HCITR_RESET_PIN          1
 
+#define HCITR_CTS_EXTI_LINE		 EXTI_IMR1_IM3
+
    /* The following definitons define the DMA infomation for receive and*/
    /* transmit on the HCI UART.  This includes the DMA number (either 1 */
    /* or 2) as well as the stream and channel.                          */
