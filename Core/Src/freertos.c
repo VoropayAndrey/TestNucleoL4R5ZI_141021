@@ -84,6 +84,7 @@ static void Sleep_Indication_Callback(Boolean_t SleepAllowed, unsigned long Call
 static int DisplayCallback(int Length, char *Message);
 static void ProcessCharacters(void *UserParameter);
 static void StartBluetoothAudioTask(void *UserParameter);
+static void StartBluetoothHSPTask(void *UserParameter);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -123,7 +124,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  btAudioTaskHandle = osThreadNew(StartBluetoothAudioTask, NULL, &btAudioTask_attributes);
+  btAudioTaskHandle = osThreadNew(StartBluetoothHSPTask, NULL, &btAudioTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -326,8 +327,59 @@ static void StartBluetoothAudioTask(void *UserParameter)
 	 }
   }
   while(1) {
-
+	  osDelay(10);
   }
+}
+
+void StartBluetoothHSPTask(void *UserParameter) {
+   int                           Result;
+   BTPS_Initialization_t         BTPS_Initialization;
+   HCI_DriverInformation_t       HCI_DriverInformation;
+   HCI_HCILLConfiguration_t      HCILLConfig;
+   HCI_Driver_Reconfigure_Data_t DriverReconfigureData;
+
+   /* Configure the UART Parameters.                                    */
+   HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 115200, cpHCILL_RTS_CTS);
+   HCI_DriverInformation.DriverInformation.COMMDriverInformation.InitializationDelay = 100;
+
+   /* Set up the application callbacks.                                 */
+   BTPS_Initialization.MessageOutputCallback = DisplayCallback;
+
+   /* Initialize the application.                                       */
+   if((Result = InitializeApplication(&HCI_DriverInformation, &BTPS_Initialization)) > 0)
+   {
+	  /* Register a sleep mode callback if we are using HCILL Mode.     */
+	  if((HCI_DriverInformation.DriverInformation.COMMDriverInformation.Protocol == cpHCILL) || (HCI_DriverInformation.DriverInformation.COMMDriverInformation.Protocol == cpHCILL_RTS_CTS))
+	  {
+		 HCILLConfig.SleepCallbackFunction        = Sleep_Indication_Callback;
+		 HCILLConfig.SleepCallbackParameter       = 0;
+		 DriverReconfigureData.ReconfigureCommand = HCI_COMM_DRIVER_RECONFIGURE_DATA_COMMAND_CHANGE_HCILL_PARAMETERS;
+		 DriverReconfigureData.ReconfigureData    = (void *)&HCILLConfig;
+
+		 /* Register the sleep mode callback.  Note that if this        */
+		 /* function returns greater than 0 then sleep is currently     */
+		 /* enabled.                                                    */
+		 Result = HCI_Reconfigure_Driver((unsigned int)Result, FALSE, &DriverReconfigureData);
+		 if(Result > 0)
+		 {
+			/* Flag that sleep mode is enabled.                         */
+			Display(("Sleep is allowed.\r\n"));
+		 }
+	  }
+
+			//BTPS_CreateThread(ToggleLED, 116, NULL);
+
+	  /* Loop forever and process UART characters.                      */
+	  while(1)
+	  {
+		 ProcessCharacters(NULL);
+
+		 BTPS_Delay(200);
+	  }
+   }
+   while(1) {
+	   osDelay(10);
+   }
 }
 /* USER CODE END Application */
 

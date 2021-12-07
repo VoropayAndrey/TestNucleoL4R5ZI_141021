@@ -5,16 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Bluetooth/Src/A3DPDemo_SNK.c \
-../Bluetooth/Src/HCITRANS.c 
+../Bluetooth/Src/HCITRANS.c \
+../Bluetooth/Src/HSPDemo.c 
 
 OBJS += \
-./Bluetooth/Src/A3DPDemo_SNK.o \
-./Bluetooth/Src/HCITRANS.o 
+./Bluetooth/Src/HCITRANS.o \
+./Bluetooth/Src/HSPDemo.o 
 
 C_DEPS += \
-./Bluetooth/Src/A3DPDemo_SNK.d \
-./Bluetooth/Src/HCITRANS.d 
+./Bluetooth/Src/HCITRANS.d \
+./Bluetooth/Src/HSPDemo.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

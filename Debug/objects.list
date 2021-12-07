@@ -1,5 +1,5 @@
-"./Bluetooth/Src/A3DPDemo_SNK.o"
 "./Bluetooth/Src/HCITRANS.o"
+"./Bluetooth/Src/HSPDemo.o"
 "./Core/Src/AUDIO.o"
 "./Core/Src/HAL.o"
 "./Core/Src/adc.o"
