@@ -287,8 +287,8 @@ static void StartBluetoothAudioTask(void *UserParameter)
 
   /* Configure the UART Parameters. 								   */
   //HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 921600, cpHCILL_RTS_CTS);
-  HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 2, 115200, cpHCILL_RTS_CTS);
-  HCI_DriverInformation.DriverInformation.COMMDriverInformation.InitializationDelay = 100;
+  HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 115200, cpHCILL_RTS_CTS);
+  HCI_DriverInformation.DriverInformation.COMMDriverInformation.InitializationDelay = 2000;
 
   /* Set up the application callbacks.								   */
   BTPS_Initialization.MessageOutputCallback = DisplayCallback;
@@ -324,6 +324,9 @@ static void StartBluetoothAudioTask(void *UserParameter)
 
 		BTPS_Delay(200);
 	 }
+  }
+  while(1) {
+
   }
 }
 /* USER CODE END Application */

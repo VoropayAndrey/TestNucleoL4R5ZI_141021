@@ -49,7 +49,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define Display(_x)                 do { BTPS_OutputMessage _x; } while(0)
+#define Display(_x)                 //do { BTPS_OutputMessage _x; } while(0)
 
 /* Error Return Codes.                                               */
 

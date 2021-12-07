@@ -989,6 +989,7 @@ static int OpenStack(HCI_DriverInformation_t *HCI_DriverInformation, BTPS_Initia
          /* Initialize the Stack                                        */
          Result = BSC_Initialize(HCI_DriverInformation, 0);
         // BTPS_ERROR_STACK_INITIALIZATION_ERROR = -3
+         //BTPS_ERROR_HCI_INITIALIZATION_ERROR = -4
          /* Next, check the return value of the initialization to see if*/
          /* it was successful.                                          */
          if(Result > 0)

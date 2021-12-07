@@ -224,6 +224,42 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	*/
 }
 
+void HCITR_UART_IRQ_HANDLER(void)
+{
+	unsigned int Flags;
+
+	//unsigned int Control;
+
+	Flags   = HCITR_UART_BASE->ISR;
+	//Control = HCITR_UART_BASE->CR1;
+
+	/* Check to see if data is available in the Receive Buffer.          */
+	//if((Flags & (USART_SR_RXNE | USART_SR_ORE))) {
+	if((Flags & USART_ISR_TXE_TXFNF)) {
+		//HCITR_UART_BASE->SR &= ~USART_SR_TC;
+		//printString("TXE\n");
+		TxInterrupt();
+	}
+
+
+	if((Flags & (USART_ISR_RXNE_RXFNE | USART_ISR_ORE))) {
+		//printString("RXE\n");
+		RxInterrupt();
+		HCITR_UART_BASE->ISR &= ~USART_ISR_RXNE_RXFNE;
+		HCITR_UART_BASE->ISR &= ~USART_ISR_ORE;
+	}
+
+	if((Flags & USART_ISR_NE)) {
+		//printString("NE\n");
+		HCITR_UART_BASE->ISR &= ~USART_ISR_NE;
+	}
+
+	if((Flags & USART_ISR_FE)) {
+		//printString("FE\n");
+		HCITR_UART_BASE->ISR &= ~USART_ISR_FE;
+	}
+}
+
    /* The following function is responsible for opening the HCI         */
    /* Transport layer that will be used by Bluetopia to send and receive*/
    /* COM (Serial) data.  This function must be successfully issued in  */
@@ -266,10 +302,9 @@ int BTPSAPI HCITR_COMOpen(HCI_COMMDriverInformation_t *COMMDriverInformation, HC
       USARTDisableTXInterrupt();
       USARTDisableCTSInterrupt();
 
-      __HAL_UART_CLEAR_FLAG(&huart2, (UART_CLEAR_TCF | UART_CLEAR_TXFECF));
+      //__HAL_UART_CLEAR_FLAG(&huart2, (UART_CLEAR_TCF | UART_CLEAR_TXFECF));
 
       MX_USART2_UART_Init();
-      uint8_t byte = HCITR_UART_BASE->TDR;
       USARTEnableRXInterrupt();
       FlowOff();
 
@@ -281,6 +316,7 @@ int BTPSAPI HCITR_COMOpen(HCI_COMMDriverInformation_t *COMMDriverInformation, HC
       USARTEnableCTSInterrupt();
       USARTEnableRXInterrupt();
       USARTEnableTXInterrupt();
+
       //printString("CTS enable\n");
       ClearReset();
       BTPS_Delay(250);
