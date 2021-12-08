@@ -125,6 +125,7 @@ void BTPSAPI HCITR_COMClose(unsigned int HCITransportID);
    /*          via the HCI_COMClose() function.                         */
 void BTPSAPI HCITR_COMReconfigure(unsigned int HCITransportID, HCI_Driver_Reconfigure_Data_t *DriverReconfigureData);
 
+
    /* The following function is responsible for actually sending data   */
    /* through the opened HCI Transport layer (specified by the first    */
    /* parameter).  Bluetopia uses this function to send formatted HCI   */

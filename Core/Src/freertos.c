@@ -62,8 +62,8 @@ static char         Input[MAX_COMMAND_LENGTH];
 osThreadId_t btAudioTaskHandle;
 const osThreadAttr_t btAudioTask_attributes = {
   .name = "btAudioTask",
-  .stack_size = 1024 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 4024 * 4,
+  .priority = (osPriority_t) osPriorityLow,
 };
 
 /* USER CODE END Variables */

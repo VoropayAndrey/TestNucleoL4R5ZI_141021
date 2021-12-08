@@ -21,6 +21,10 @@
 #include "stm32l4xx_hal_uart.h"
 #include "stm32l4xx_hal_uart_ex.h"
 #include "usart.h"
+#include "FreeRTOS.h"         /* FreeRTOS Kernal Prototypes/Constants.        */
+#include "task.h"             /* FreeRTOS Task Prototypes/Constants.          */
+#include "semphr.h"           /* FreeRTOS Semaphore Prototypes/Constants.     */
+#include "portmacro.h"
 
 #define INPUT_BUFFER_SIZE        1056
 #define OUTPUT_BUFFER_SIZE       1056
@@ -74,6 +78,9 @@ typedef struct _tagUartContext_t
    Boolean_t                DebugEnabled;
 
 #endif
+
+   volatile ThreadHandle_t  ReceiveThreadHandle;
+   xSemaphoreHandle         DataReceivedEvent;
 
    SuspendState_t           SuspendState;
 
@@ -154,14 +161,15 @@ static void TxInterrupt(void)
    /* UART RX interrupt.                                                */
 static void RxInterrupt(void)
 {
+	signed portBASE_TYPE xHigherPriorityTaskWoken;
    /* Continue reading data from the fifo until it is empty or the      */
    /* buffer is full.                                                   */
 	// while
    if((UartContext.RxBytesFree))
    {
-      if(HCITR_UART_BASE->ISR & USART_ISR_ORE) {
-         DBG_MSG(DBG_ZONE_GENERAL, ("Receive Overflow\r\n"));
-      }
+      //if(HCITR_UART_BASE->ISR & USART_ISR_ORE) {
+         //DBG_MSG(DBG_ZONE_GENERAL, ("Receive Overflow\r\n"));
+      //}
 
       /* Read a character from the port into the receive buffer         */
       UartContext.RxBuffer[UartContext.RxInIndex] = HCITR_UART_BASE->RDR;
@@ -187,6 +195,10 @@ static void RxInterrupt(void)
       /* Indicate the suspend is interrupted.                           */
       UartContext.SuspendState = hssSuspendWaitInterrupted;
    }
+
+   xHigherPriorityTaskWoken = pdFALSE;
+   xSemaphoreGiveFromISR(UartContext.DataReceivedEvent, &xHigherPriorityTaskWoken);
+   portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
@@ -224,14 +236,25 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	*/
 }
 
+volatile uint16_t what = 0;
+
+
 void HCITR_UART_IRQ_HANDLER(void)
 {
 	unsigned int Flags;
 
 	//unsigned int Control;
 
-	Flags   = HCITR_UART_BASE->ISR;
+	Flags = HCITR_UART_BASE->ISR;
 	//Control = HCITR_UART_BASE->CR1;
+
+	if((Flags & (USART_ISR_RXNE_RXFNE | USART_ISR_ORE))) {
+		HCITR_UART_BASE->ISR &= ~USART_ISR_RXNE_RXFNE;
+		// Clean ORE
+		HCITR_UART_BASE->ICR |= USART_ICR_ORECF;
+		//printString("RXE\n");
+		RxInterrupt();
+	}
 
 	/* Check to see if data is available in the Receive Buffer.          */
 	//if((Flags & (USART_SR_RXNE | USART_SR_ORE))) {
@@ -242,13 +265,6 @@ void HCITR_UART_IRQ_HANDLER(void)
 	}
 
 
-	if((Flags & (USART_ISR_RXNE_RXFNE | USART_ISR_ORE))) {
-		//printString("RXE\n");
-		RxInterrupt();
-		HCITR_UART_BASE->ISR &= ~USART_ISR_RXNE_RXFNE;
-		HCITR_UART_BASE->ISR &= ~USART_ISR_ORE;
-	}
-
 	if((Flags & USART_ISR_NE)) {
 		//printString("NE\n");
 		HCITR_UART_BASE->ISR &= ~USART_ISR_NE;
@@ -258,7 +274,100 @@ void HCITR_UART_IRQ_HANDLER(void)
 		//printString("FE\n");
 		HCITR_UART_BASE->ISR &= ~USART_ISR_FE;
 	}
+
+	// TODO: remove debug code
+	if(Flags & USART_ISR_ORE) {
+		uint8_t hey_you = 1;
+		what = hey_you * 10;
+	}
+
+	if(UartContext.RxInIndex > 0) {
+		uint8_t hey_you = 2;
+		what = hey_you * 10;
+	}
 }
+
+static void *RxThread(void *Param)
+{
+   unsigned int MaxLength;
+   unsigned int TotalLength;
+
+#ifdef HCITR_ENABLE_DEBUG_LOGGING
+
+   unsigned int Index;
+
+#endif
+
+   /* Loop the thread until the transport has been closed.              */
+   while(HCITransportOpen)
+   {
+      /* Wait until there is data available in the receive buffer.      */
+      while(((TotalLength = (INPUT_BUFFER_SIZE - UartContext.RxBytesFree)) == 0) && (HCITransportOpen))
+         xSemaphoreTake(UartContext.DataReceivedEvent, portMAX_DELAY);
+
+      if(TotalLength)
+      {
+         /* Determine the maximum number of characters that we can send */
+         /* before we reach the end of the buffer.  We need to process  */
+         /* the smaller of the max characters or the number of          */
+         /* characters that are in the buffer.                          */
+         MaxLength   = (INPUT_BUFFER_SIZE - UartContext.RxOutIndex);
+         if(TotalLength > MaxLength)
+            TotalLength = MaxLength;
+
+#ifdef HCITR_ENABLE_DEBUG_LOGGING
+
+         if(UartContext.DebugEnabled)
+         {
+            DEBUG_PRINT(">");
+
+            for(Index = 0; Index < Count; Index ++)
+               DEBUG_PRINT(" %02X", UartContext.RxBuffer[UartContext.RxOutIndex + Index]);
+
+            DEBUG_PRINT("\r\n");
+         }
+
+#endif
+
+         /* Call the upper layer back with the data.                    */
+         if(UartContext.COMDataCallbackFunction)
+            (*UartContext.COMDataCallbackFunction)(TRANSPORT_ID, TotalLength, &(UartContext.RxBuffer[UartContext.RxOutIndex]), UartContext.COMDataCallbackParameter);
+
+         /* Adjust the Out Index and handle any looping.                */
+         UartContext.RxOutIndex += TotalLength;
+         if(UartContext.RxOutIndex == INPUT_BUFFER_SIZE)
+            UartContext.RxOutIndex = 0;
+
+         /* Credit the amount that was processed and make sure the      */
+         /* receive interrupt is enabled.                               */
+         DisableInterrupts();
+         UartContext.RxBytesFree += TotalLength;
+         //USART_ITConfig(HCITR_UART_BASE, USART_IT_RXNE, ENABLE);
+         USARTEnableRXInterrupt();
+         EnableInterrupts();
+
+#ifdef USE_SOFTWARE_CTS_RTS
+
+         if(UartContext.SuspendState == hssNormal)
+         {
+            /* If the input buffer has passed the flow on threshold,    */
+            /* re-enable flow control.                                  */
+            if(UartContext.RxBytesFree >= FLOW_ON_THRESHOLD)
+               FlowOn();
+         }
+
+#endif
+
+      }
+   }
+
+   /* Set the thread handle to NULL to indicate the thread is ready to  */
+   /* terminate.                                                        */
+   UartContext.ReceiveThreadHandle = NULL;
+
+   return(NULL);
+}
+
 
    /* The following function is responsible for opening the HCI         */
    /* Transport layer that will be used by Bluetopia to send and receive*/
@@ -296,6 +405,26 @@ int BTPSAPI HCITR_COMOpen(HCI_COMMDriverInformation_t *COMMDriverInformation, HC
       UartContext.SuspendState             = hssNormal;
       //UartContext.DebugEnabled				= ENABLE;
 
+      /* Create the event that will be used to signal data has arrived. */
+      vSemaphoreCreateBinary(UartContext.DataReceivedEvent);
+
+      if(UartContext.DataReceivedEvent)
+      {
+         /* Make sure that the event is in the reset state.             */
+         xSemaphoreTake(UartContext.DataReceivedEvent, 1);
+
+         /* Create a thread that will process the received data.        */
+         UartContext.ReceiveThreadHandle = BTPS_CreateThread(RxThread, 1600, NULL);
+
+         if(!UartContext.ReceiveThreadHandle)
+         {
+            /* Failed to start the thread, delete the semaphore.        */
+            vQueueDelete(UartContext.DataReceivedEvent);
+            ret_val = HCITR_ERROR_UNABLE_TO_OPEN_TRANSPORT;
+         }
+      }
+      else
+         ret_val = HCITR_ERROR_UNABLE_TO_OPEN_TRANSPORT;
 
       /* Enable the peripheral clocks for the UART and its GPIO.        */
       EnableUartPeriphClock();
@@ -386,7 +515,12 @@ void BTPSAPI HCITR_COMClose(unsigned int HCITransportID)
 
       /* Place the Bluetooth Device in Reset.                           */
       SetReset();
+      xSemaphoreGive(UartContext.DataReceivedEvent);
+      while(UartContext.ReceiveThreadHandle)
+         BTPS_Delay(1);
 
+      /* Close the semaphore.                                           */
+      vQueueDelete((xQueueHandle)(UartContext.DataReceivedEvent));
       /* Disable the peripheral clock for the UART.                     */
       DisableUartPeriphClock();
 
@@ -436,83 +570,6 @@ void BTPSAPI HCITR_COMReconfigure(unsigned int HCITransportID, HCI_Driver_Reconf
    }
 }
 
-   /* The following function is provided to allow a mechanism for       */
-   /* modules to force the processing of incoming COM Data.             */
-   /* * NOTE * This function is only applicable in device stacks that   */
-   /*          are non-threaded.  This function has no effect for device*/
-   /*          stacks that are operating in threaded environments.      */
-void BTPSAPI HCITR_COMProcess(unsigned int HCITransportID)
-{
-   unsigned int MaxLength;
-   unsigned int TotalLength;
-//   printString("HCITR_COMProcess\n");
-#ifdef HCITR_ENABLE_DEBUG_LOGGING
-
-   unsigned int Index;
-
-#endif
-
-   /* Check to make sure that the specified Transport ID is valid.      */
-   if((HCITransportID == TRANSPORT_ID) && (HCITransportOpen))
-   {
-      /* Loop until the receive buffer is empty.                        */
-      while((TotalLength = (INPUT_BUFFER_SIZE - UartContext.RxBytesFree)) != 0)
-      {
-         /* Determine the maximum number of characters that we can send */
-         /* before we reach the end of the buffer.  We need to process  */
-         /* the smaller of the max characters or the number of          */
-         /* characters that are in the buffer.                          */
-         MaxLength   = (INPUT_BUFFER_SIZE - UartContext.RxOutIndex);
-         if(TotalLength > MaxLength)
-            TotalLength = MaxLength;
-
-#ifdef HCITR_ENABLE_DEBUG_LOGGING
-
-         if(UartContext.DebugEnabled)
-         {
-            DEBUG_PRINT(">");
-
-            for(Index = 0; Index < TotalLength; Index ++)
-               DEBUG_PRINT(" %02X", UartContext.RxBuffer[UartContext.RxOutIndex + Index]);
-
-            DEBUG_PRINT("\r\n");
-         }
-
-#endif
-
-         /* Call the upper layer back with the data.                    */
-         if(UartContext.COMDataCallbackFunction)
-            (*UartContext.COMDataCallbackFunction)(TRANSPORT_ID, TotalLength, &(UartContext.RxBuffer[UartContext.RxOutIndex]), UartContext.COMDataCallbackParameter);
-
-         /* Adjust the Out Index and handle any looping.                */
-         UartContext.RxOutIndex += TotalLength;
-         if(UartContext.RxOutIndex == INPUT_BUFFER_SIZE)
-            UartContext.RxOutIndex = 0;
-
-         /* Credit the amount that was processed and make sure the      */
-         /* receive interrupt is enabled.                               */
-         DisableInterrupts();
-         UartContext.RxBytesFree += TotalLength;
-         //USART_ITConfig(HCITR_UART_BASE, USART_IT_RXNE, ENABLE);
-         USARTEnableRXInterrupt();
-         EnableInterrupts();
-/*
-#ifdef USE_SOFTWARE_CTS_RTS
-
-         if(UartContext.SuspendState == hssNormal)
-         {
-            // If the input buffer has passed the flow on threshold,
-            // re-enable flow control.
-            if(UartContext.RxBytesFree >= FLOW_ON_THRESHOLD)
-               FlowOn();
-         }
-
-#endif
- */
-
-      }
-   }
-}
 
    /* The following function is responsible for actually sending data   */
    /* through the opened HCI Transport layer (specified by the first    */
