@@ -169,4 +169,7 @@ int BTPSAPI HCITR_COMSuspend(unsigned int HCITransportID);
    /* if successful or a negative value if there was an error.          */
 int BTPSAPI HCITR_EnableDebugLogging(Boolean_t Enable);
 
+void HCITxInterruptHandler(void);
+void HCIRxInterruptHandler(void);
+
 #endif

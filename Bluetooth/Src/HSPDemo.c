@@ -4339,7 +4339,7 @@ static void BTPSAPI HDSET_Event_Callback(unsigned int BluetoothStackID, HDSET_Ev
 int InitializeApplication(HCI_DriverInformation_t *HCI_DriverInformation, BTPS_Initialization_t *BTPS_Initialization)
 {
    int ret_val = APPLICATION_ERROR_UNABLE_TO_OPEN_STACK;
-   UI_Mode                = UI_MODE_SELECT;
+   UI_Mode                = UI_MODE_IS_CLIENT;//UI_MODE_SELECT;
 
 
    /* Next, makes sure that the Driver Information passed appears to be */

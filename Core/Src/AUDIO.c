@@ -46,7 +46,7 @@
 #define MOVING_AVERAGE_NUMBER_FOR_DC_REMOVAL     16
 
  /* The following is used as a printf() replacement.        */
-#define Display(_x) do { BTPS_OutputMessage _x; } while(0)
+//#define Display(_x) do { BTPS_OutputMessage _x; } while(0)
 
 typedef enum
 {

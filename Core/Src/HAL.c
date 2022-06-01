@@ -23,6 +23,8 @@
 
 #include "HAL.h"                 /* Function for Hardware Abstraction.       */
 #include "BTPSKRNL.h"            /* BTPS Kernel Header.                      */
+#include "serialOutput.h"
+#include "serialInput.h"
 
    /* The following defines the Buffer sizes that will be used for the  */
    /* console UART.                                                     */
@@ -220,10 +222,11 @@ void HAL_LedToggle(int LED_ID)
    /* in Buffer.                                                        */
 int HAL_ConsoleRead(int Length, char *Buffer)
 {
-	int ret_val;
-	/*
+   int ret_val;
    if((Length) && (Buffer))
    {
+	   ret_val = serialInputRead((uint8_t*)Buffer);
+   /*
       // Set the size to be copied equal to the smaller of the length
       // and the bytes in the receive buffer.
       ret_val = HAL_UartContext.RxBufferSize - HAL_UartContext.RxBytesFree;
@@ -250,10 +253,11 @@ int HAL_ConsoleRead(int Length, char *Buffer)
       }
 
       HAL_UartContext.RxBytesFree += ret_val;
+      */
    }
    else
       ret_val = 0;
-   */
+
    return(ret_val);
 }
 
@@ -265,15 +269,17 @@ int HAL_ConsoleRead(int Length, char *Buffer)
    /* successfully saved in the output buffer.                          */
 int HAL_ConsoleWrite(int Length, char *Buffer)
 {
-   int ret_val;
-   /*
-   int Count;
-   int BytesFree;
+   //int Count;
+   //int BytesFree;
+	int ret_val = Length;
 
    if((Length) && (Buffer))
    {
-      ret_val = 0;
+	   serialOutputPrint((uint8_t*)Buffer, Length);
 
+   //   ret_val = 0;
+
+      /*
       while(Length)
       {
          // Wait for space to be availale in the buffer.
@@ -303,9 +309,11 @@ int HAL_ConsoleWrite(int Length, char *Buffer)
          USART_ITConfig(HAL_UartContext.Base, USART_IT_TXE, ENABLE);
          EnableInterrupts();
       }
+      */
    }
    else
       ret_val = 0;
-   */
+
+
    return(ret_val);
 }

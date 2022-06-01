@@ -65,6 +65,7 @@ extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart2_tx;
+extern UART_HandleTypeDef hlpuart1;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
@@ -547,6 +548,9 @@ void I2C4_ER_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+void LPUART1_IRQHandler(void)
+{
+	HAL_UART_IRQHandler(&hlpuart1);
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

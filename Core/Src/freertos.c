@@ -27,6 +27,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "HCITRANS.h"            /* HCI Transport Prototypes/Constants.       */
+#include "usart.h"
+#include "serialOutput.h"
+#include "serialInput.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -75,6 +78,13 @@ const osThreadAttr_t defaultTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 
+osThreadId_t serialOutputTaskHandle;
+const osThreadAttr_t serialOutputTask_attributes = {
+  .name = "serialOutputTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 static int GetInput(void);
@@ -83,12 +93,11 @@ static void Sleep_Indication_Callback(Boolean_t SleepAllowed, unsigned long Call
    /* Application Tasks.                                                */
 static int DisplayCallback(int Length, char *Message);
 static void ProcessCharacters(void *UserParameter);
-static void StartBluetoothAudioTask(void *UserParameter);
 static void StartBluetoothHSPTask(void *UserParameter);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-
+void StartSerialOutputTask(void *argument);
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -125,6 +134,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   btAudioTaskHandle = osThreadNew(StartBluetoothHSPTask, NULL, &btAudioTask_attributes);
+  serialOutputTaskHandle = osThreadNew(StartSerialOutputTask, NULL, &serialOutputTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -148,10 +158,29 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
+      //serialOutputPrint("Hello\n", 6);
+
 	  HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
-	  osDelay(250);
+	  osDelay(500);
   }
   /* USER CODE END StartDefaultTask */
+}
+
+void StartSerialOutputTask(void *argument) {
+	HAL_UART_StateTypeDef state = 0;
+	for(;;)
+	{
+
+
+
+		state = HAL_UART_GetState(&hlpuart1);
+		if(state == HAL_UART_STATE_BUSY_TX) {
+		  // UART is still sending data
+		} else {
+			serialOutputProcess();
+		}
+		osDelay(10);
+	}
 }
 
 /* Private application code --------------------------------------------------*/
@@ -278,59 +307,6 @@ static void ProcessCharacters(void *UserParameter)
   }
 }
 
-static void StartBluetoothAudioTask(void *UserParameter)
-{
-  int							Result;
-  BTPS_Initialization_t 		BTPS_Initialization;
-  HCI_DriverInformation_t		HCI_DriverInformation;
-  HCI_HCILLConfiguration_t		HCILLConfig;
-  HCI_Driver_Reconfigure_Data_t DriverReconfigureData;
-
-  /* Configure the UART Parameters. 								   */
-  //HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 921600, cpHCILL_RTS_CTS);
-  HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 115200, cpHCILL_RTS_CTS);
-  HCI_DriverInformation.DriverInformation.COMMDriverInformation.InitializationDelay = 2000;
-
-  /* Set up the application callbacks.								   */
-  BTPS_Initialization.MessageOutputCallback = DisplayCallback;
-
-  /* Initialize the application.									   */
-  if((Result = InitializeApplication(&HCI_DriverInformation, &BTPS_Initialization)) > 0)
-  {
-	 /* Register a sleep mode callback if we are using HCILL Mode.	   */
-	 if((HCI_DriverInformation.DriverInformation.COMMDriverInformation.Protocol == cpHCILL) || (HCI_DriverInformation.DriverInformation.COMMDriverInformation.Protocol == cpHCILL_RTS_CTS))
-	 {
-		HCILLConfig.SleepCallbackFunction		 = Sleep_Indication_Callback;
-		HCILLConfig.SleepCallbackParameter		 = 0;
-		DriverReconfigureData.ReconfigureCommand = HCI_COMM_DRIVER_RECONFIGURE_DATA_COMMAND_CHANGE_HCILL_PARAMETERS;
-		DriverReconfigureData.ReconfigureData	 = (void *)&HCILLConfig;
-
-		/* Register the sleep mode callback.  Note that if this 	   */
-		/* function returns greater than 0 then sleep is currently	   */
-		/* enabled. 												   */
-		Result = HCI_Reconfigure_Driver((unsigned int)Result, FALSE, &DriverReconfigureData);
-		if(Result > 0)
-		{
-		   /* Flag that sleep mode is enabled.						   */
-		   Display(("Sleep is allowed.\r\n"));
-		}
-	 }
-
-		   //BTPS_CreateThread(ToggleLED, 116, NULL);
-
-	 /* Loop forever and process UART characters.					   */
-	 while(1)
-	 {
-		ProcessCharacters(NULL);
-
-		BTPS_Delay(200);
-	 }
-  }
-  while(1) {
-	  osDelay(10);
-  }
-}
-
 void StartBluetoothHSPTask(void *UserParameter) {
    int                           Result;
    BTPS_Initialization_t         BTPS_Initialization;
@@ -339,7 +315,7 @@ void StartBluetoothHSPTask(void *UserParameter) {
    HCI_Driver_Reconfigure_Data_t DriverReconfigureData;
 
    /* Configure the UART Parameters.                                    */
-   HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 1, 115200, cpHCILL_RTS_CTS);
+   HCI_DRIVER_SET_COMM_INFORMATION(&HCI_DriverInformation, 2, 115200, cpHCILL_RTS_CTS);
    HCI_DriverInformation.DriverInformation.COMMDriverInformation.InitializationDelay = 100;
 
    /* Set up the application callbacks.                                 */
@@ -372,8 +348,9 @@ void StartBluetoothHSPTask(void *UserParameter) {
 	  /* Loop forever and process UART characters.                      */
 	  while(1)
 	  {
+		  //CommandLineInterpreter("Pait\n\r");
 		 ProcessCharacters(NULL);
-
+		 //Display(("\r\nHello"));
 		 BTPS_Delay(200);
 	  }
    }

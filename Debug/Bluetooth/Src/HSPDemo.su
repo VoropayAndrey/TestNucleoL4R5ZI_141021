@@ -10,11 +10,11 @@ HSPDemo.c:911:12:AddCommand	24	static
 HSPDemo.c:944:26:FindCommand	32	static
 HSPDemo.c:968:13:ClearCommands	4	static
 HSPDemo.c:979:13:BD_ADDRToStr	48	static
-HSPDemo.c:986:13:DisplayPrompt	4	static
+HSPDemo.c:986:13:DisplayPrompt	8	static
 HSPDemo.c:1001:13:DisplayFunctionError	16	static
 HSPDemo.c:1010:13:DisplayFWVersion	48	static
 HSPDemo.c:1037:12:QueryMemory	40	static
-HSPDemo.c:1072:12:OpenStack	56	static
+HSPDemo.c:1072:12:OpenStack	64	static
 HSPDemo.c:1207:12:CloseStack	16	static
 HSPDemo.c:1242:12:SetDisc	16	static
 HSPDemo.c:1283:12:SetConnect	16	static
@@ -41,7 +41,7 @@ HSPDemo.c:2464:12:GetRemoteName	40	static
 HSPDemo.c:2522:12:ServiceDiscovery	96	static
 HSPDemo.c:2604:13:DisplaySDPAttributeResponse	24	static
 HSPDemo.c:2628:13:DisplaySDPSearchAttributeResponse	24	static
-HSPDemo.c:2659:13:DisplayDataElement	280	static
+HSPDemo.c:2659:13:DisplayDataElement	376	static
 HSPDemo.c:2871:21:SDP_Event_Callback	32	static
 HSPDemo.c:2959:12:OpenServer	96	static
 HSPDemo.c:3108:12:CloseServer	24	static

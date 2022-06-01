@@ -49,7 +49,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define Display(_x)                 //do { BTPS_OutputMessage _x; } while(0)
+#define Display(_x)                do { BTPS_OutputMessage _x; } while(0)
 
 /* Error Return Codes.                                               */
 
@@ -68,48 +68,69 @@ void Error_Handler(void);
 
 /* Private defines -----------------------------------------------------------*/
 #define B1_Pin GPIO_PIN_13
+
 #define B1_GPIO_Port GPIOC
 #define B1_EXTI_IRQn EXTI15_10_IRQn
+
 #define HCI2_RTS_Pin GPIO_PIN_1
 #define HCI2_RTS_GPIO_Port GPIOB
+
 #define LD3_Pin GPIO_PIN_14
 #define LD3_GPIO_Port GPIOB
+
 #define STLK_RX_Pin GPIO_PIN_8
 #define STLK_RX_GPIO_Port GPIOD
+
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
+
 #define HCI2_CTS_Pin GPIO_PIN_11
 #define HCI2_CTS_GPIO_Port GPIOD
 #define HCI2_CTS_EXTI_IRQn EXTI15_10_IRQn
+
 #define STLINK_TX_Pin GPIO_PIN_7
 #define STLINK_TX_GPIO_Port GPIOG
+
 #define STLINK_RX_Pin GPIO_PIN_8
 #define STLINK_RX_GPIO_Port GPIOG
+
 #define USB_SOF_Pin GPIO_PIN_8
 #define USB_SOF_GPIO_Port GPIOA
+
 #define USB_VBUS_Pin GPIO_PIN_9
 #define USB_VBUS_GPIO_Port GPIOA
+
 #define USB_ID_Pin GPIO_PIN_10
 #define USB_ID_GPIO_Port GPIOA
+
 #define USB_DM_Pin GPIO_PIN_11
 #define USB_DM_GPIO_Port GPIOA
+
 #define USB_DP_Pin GPIO_PIN_12
 #define USB_DP_GPIO_Port GPIOA
+
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
+
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+
 #define SDIO_PLG_Pin GPIO_PIN_0
 #define SDIO_PLG_GPIO_Port GPIOD
+
 #define BT_HCI_RESET_Pin GPIO_PIN_1
 #define BT_HCI_RESET_GPIO_Port GPIOD
+
 #define HCI1_CTS_Pin GPIO_PIN_3
 #define HCI1_CTS_GPIO_Port GPIOD
 #define HCI1_CTS_EXTI_IRQn EXTI3_IRQn
+
 #define HCI1_RTS_Pin GPIO_PIN_4
 #define HCI1_RTS_GPIO_Port GPIOD
+
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+
 #define LD2_Pin GPIO_PIN_7
 #define LD2_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */

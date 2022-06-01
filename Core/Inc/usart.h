@@ -46,7 +46,9 @@ void MX_USART2_UART_Init(void);
 void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
 
+void HAL_UARTEx_TxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

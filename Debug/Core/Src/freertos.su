@@ -1,8 +1,8 @@
-freertos.c:100:6:MX_FREERTOS_Init	8	static
-freertos.c:143:6:StartDefaultTask	16	static
-freertos.c:162:12:GetInput	16	static
-freertos.c:242:13:Sleep_Indication_Callback	16	static
-freertos.c:255:12:DisplayCallback	16	static
-freertos.c:266:13:ProcessCharacters	24	static
-freertos.c:281:13:StartBluetoothAudioTask	72	static
-freertos.c:334:6:StartBluetoothHSPTask	72	static
+freertos.c:109:6:MX_FREERTOS_Init	8	static
+freertos.c:153:6:StartDefaultTask	16	static
+freertos.c:169:6:StartSerialOutputTask	24	static
+freertos.c:191:12:GetInput	16	static
+freertos.c:271:13:Sleep_Indication_Callback	16	static
+freertos.c:284:12:DisplayCallback	16	static
+freertos.c:295:13:ProcessCharacters	24	static
+freertos.c:310:6:StartBluetoothHSPTask	72	static

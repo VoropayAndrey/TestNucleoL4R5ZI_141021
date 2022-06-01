@@ -80,7 +80,7 @@ void DMA2_Channel7_IRQHandler(void);
 void I2C4_EV_IRQHandler(void);
 void I2C4_ER_IRQHandler(void);
 /* USER CODE BEGIN EFP */
-
+void LPUART1_IRQHandler(void);
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

@@ -21,7 +21,13 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
+#include "HCITRANS.h"
+#include "serialOutput.h"
+#include "serialInput.h"
 
+uint8_t rxBuffer[100] = {0};
+void serialOutputCallback(uint8_t* message, uint32_t length);
+void serialInputInitCallback(void);
 /* USER CODE END 0 */
 
 UART_HandleTypeDef hlpuart1;
@@ -46,8 +52,8 @@ void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 209700;
-  hlpuart1.Init.WordLength = UART_WORDLENGTH_7B;
+  hlpuart1.Init.BaudRate = 115200;
+  hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
   hlpuart1.Init.Mode = UART_MODE_TX_RX;
@@ -73,6 +79,11 @@ void MX_LPUART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN LPUART1_Init 2 */
+  serialOutputInit(serialOutputCallback);
+
+  serialInputInit(serialInputInitCallback);
+
+  HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 1);
 
   /* USER CODE END LPUART1_Init 2 */
 
@@ -127,7 +138,7 @@ void MX_USART2_UART_Init(void)
 {
 
   /* USER CODE BEGIN USART2_Init 0 */
-
+	// First CC2564 (BLE and EDR)
   /* USER CODE END USART2_Init 0 */
 
   /* USER CODE BEGIN USART2_Init 1 */
@@ -241,12 +252,14 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     */
     GPIO_InitStruct.Pin = STLINK_TX_Pin|STLINK_RX_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF8_LPUART1;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
   /* USER CODE BEGIN LPUART1_MspInit 1 */
+    HAL_NVIC_SetPriority(LPUART1_IRQn, 5, 4);
+    HAL_NVIC_EnableIRQ(LPUART1_IRQn);
 
   /* USER CODE END LPUART1_MspInit 1 */
   }
@@ -317,7 +330,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart1_tx);
 
     /* USART1 interrupt Init */
-    HAL_NVIC_SetPriority(USART1_IRQn, 1, 0);
+    HAL_NVIC_SetPriority(USART1_IRQn, 5, 3);
     HAL_NVIC_EnableIRQ(USART1_IRQn);
   /* USER CODE BEGIN USART1_MspInit 1 */
 
@@ -533,7 +546,53 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 }
 
 /* USER CODE BEGIN 1 */
+/*
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+	if(huart == &hlpuart1) {
 
+	}
+}
+
+void HAL_UARTEx_TxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+	if(huart == &hlpuart1) {
+
+	}
+}
+*/
+
+void serialOutputCallback(uint8_t* message, uint32_t length) {
+	HAL_UART_Transmit_IT(&hlpuart1, message, length);
+}
+
+void serialInputInitCallback(void) {
+	//HAL_UART_Receive_IT(&hlpuart1, message, length);
+}
+
+void TxConsoleHandler() {
+	// Do nothing, STM HAL will do all for you
+}
+
+void RxConsoleHandler(uint8_t* buffer, uint32_t length) {
+	serialInputProcessInterrupt(buffer, length);
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
+	if(huart->Instance == LPUART1) {
+		TxConsoleHandler();
+	} else if(huart->Instance == USART2) {
+		HCITxInterruptHandler();
+	}
+}
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if(huart->Instance == LPUART1) {
+		HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 1);
+		RxConsoleHandler(huart->pRxBuffPtr, huart->RxXferSize);
+	} else if(huart->Instance == USART2) {
+		HCIRxInterruptHandler();
+	}
+}
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

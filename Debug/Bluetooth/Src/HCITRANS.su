@@ -12,6 +12,5 @@ HCITRANS.c:551:14:HCITR_COMReconfigure	32	static,ignoring_inline_asm
 HCITRANS.c:591:13:HCITR_COMWrite	56	static,ignoring_inline_asm
 HCITRANS.c:704:13:HCITR_COMSuspend	32	static,ignoring_inline_asm
 HCITRANS.c:763:13:HCITR_EnableDebugLogging	24	static
-HCITRANS.c:794:6:HAL_UART_TxCpltCallback	16	static
-HCITRANS.c:801:6:HAL_UART_RxCpltCallback	16	static
-HCITRANS.c:807:6:HAL_UART_ErrorCallback	16	static
+HCITRANS.c:782:6:HCITxInterruptHandler	8	static
+HCITRANS.c:785:6:HCIRxInterruptHandler	8	static

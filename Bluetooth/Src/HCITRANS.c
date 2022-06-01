@@ -779,32 +779,10 @@ int BTPSAPI HCITR_EnableDebugLogging(Boolean_t Enable)
    return(ret_val);
 }
 
-//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-//	if(huart->Instance == USART2) {
-//		RxInterrupt();
-//	}
-//}
-//
-//void HAL_UARTEx_TxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-//	if(huart->Instance == USART2) {
-//		TxInterrupt();
-//	}
-//}
-
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
-	if(huart->Instance == USART2) {
-			TxInterrupt();
-	}
+void HCITxInterruptHandler(void) {
+	TxInterrupt();
 }
-
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-	if(huart->Instance == USART2) {
-			RxInterrupt();
-	}
-}
-
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
-
+void HCIRxInterruptHandler(void) {
+	RxInterrupt();
 }
 
