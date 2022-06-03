@@ -27,9 +27,9 @@ uint8_t fifoInit(FifoContext* context, uint32_t size, uint8_t type) {
 uint8_t fifoPush(FifoContext* context, uint8_t data) {
 
 	if(context->fifoType == FIFO_TYPE_ISR_PUSH) {
-		while(xSemaphoreTakeFromISR(context->fifoMutex, pdFALSE));
+		xSemaphoreTakeFromISR(context->fifoMutex, pdFALSE);
 	} else {
-		while(xSemaphoreTake(context->fifoMutex, (TickType_t)portMAX_DELAY) == pdFALSE);
+		xSemaphoreTake(context->fifoMutex, (TickType_t)portMAX_DELAY);
 	}
 
 	if(context->fifoEmptySpaceLeft > 0) {
@@ -62,9 +62,9 @@ uint8_t fifoPush(FifoContext* context, uint8_t data) {
 uint8_t fifoPull(FifoContext* context, uint8_t* data) {
 
 	if(context->fifoType == FIFO_TYPE_ISR_PULL) {
-		while(xSemaphoreTakeFromISR(context->fifoMutex, pdFALSE));
+		xSemaphoreTakeFromISR(context->fifoMutex, pdFALSE);
 	} else {
-		while(xSemaphoreTake(context->fifoMutex, (TickType_t)portMAX_DELAY) == pdFALSE);
+		xSemaphoreTake(context->fifoMutex, (TickType_t)portMAX_DELAY);
 	}
 
 	if(context->fifoEmptySpaceLeft < context->fifoBufferSize) {

@@ -1,5 +1,3 @@
-serialInput.c:29:13:putChar	24	static
-serialInput.c:52:16:pullChar	32	static
-serialInput.c:74:6:serialInputInit	16	static
-serialInput.c:86:6:serialInputProcessInterrupt	24	static
-serialInput.c:94:10:serialInputRead	32	static
+serialInput.c:20:6:serialInputInit	16	static
+serialInput.c:26:6:serialInputProcessInterrupt	24	static
+serialInput.c:34:10:serialInputRead	24	static

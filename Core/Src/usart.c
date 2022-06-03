@@ -82,7 +82,7 @@ void MX_LPUART1_UART_Init(void)
   /* USER CODE BEGIN LPUART1_Init 2 */
   serialOutputInit(serialOutputCallback, serialOutputOveflowCallback, 4096, 2048);
 
-  serialInputInit(serialInputInitCallback);
+  serialInputInit(serialInputInitCallback, 2048);
 
   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 1);
 
