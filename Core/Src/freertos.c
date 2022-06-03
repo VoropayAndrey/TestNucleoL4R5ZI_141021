@@ -170,16 +170,13 @@ void StartSerialOutputTask(void *argument) {
 	HAL_UART_StateTypeDef state = 0;
 	for(;;)
 	{
-
-
-
 		state = HAL_UART_GetState(&hlpuart1);
 		if(state == HAL_UART_STATE_BUSY_TX) {
-		  // UART is still sending data
+
 		} else {
 			serialOutputProcess();
 		}
-		osDelay(10);
+		osDelay(25);
 	}
 }
 
@@ -351,7 +348,7 @@ void StartBluetoothHSPTask(void *UserParameter) {
 		  //CommandLineInterpreter("Pait\n\r");
 		 ProcessCharacters(NULL);
 		 //Display(("\r\nHello"));
-		 BTPS_Delay(200);
+		 BTPS_Delay(20);
 	  }
    }
    while(1) {

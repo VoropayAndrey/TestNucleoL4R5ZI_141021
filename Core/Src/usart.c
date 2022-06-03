@@ -28,6 +28,7 @@
 uint8_t rxBuffer[100] = {0};
 void serialOutputCallback(uint8_t* message, uint32_t length);
 void serialInputInitCallback(void);
+void serialOutputOveflowCallback(void);
 /* USER CODE END 0 */
 
 UART_HandleTypeDef hlpuart1;
@@ -79,7 +80,7 @@ void MX_LPUART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN LPUART1_Init 2 */
-  serialOutputInit(serialOutputCallback);
+  serialOutputInit(serialOutputCallback, serialOutputOveflowCallback, 4096, 2048);
 
   serialInputInit(serialInputInitCallback);
 
@@ -563,6 +564,12 @@ void HAL_UARTEx_TxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 void serialOutputCallback(uint8_t* message, uint32_t length) {
 	HAL_UART_Transmit_IT(&hlpuart1, message, length);
 }
+
+void serialOutputOveflowCallback() {
+	// start to print pull data to a COM port
+	//HAL_UART_Transmit_IT(&hlpuart1, message, length);
+}
+
 
 void serialInputInitCallback(void) {
 	//HAL_UART_Receive_IT(&hlpuart1, message, length);

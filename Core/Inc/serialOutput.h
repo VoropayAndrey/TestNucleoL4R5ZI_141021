@@ -13,9 +13,14 @@
 
 #include <stdint.h>
 
-typedef void (*SerialOutputCallback)(uint8_t* message, uint32_t length);
+typedef void (*SerialOutputProcessCallback)(uint8_t* message, uint32_t length);
 
-void serialOutputInit(SerialOutputCallback callback);
+typedef void (*SerialOutputOverflowCallback)();
+
+void serialOutputInit(SerialOutputProcessCallback callback,
+		SerialOutputOverflowCallback overflowCallback,
+		uint32_t bufferSize,
+		uint32_t overflowSize);
 
 // Call from multiple RTOS tasks
 void serialOutputPrint(uint8_t* message, uint32_t length);

@@ -1,0 +1,3 @@
+fifo.c:12:9:fifoInit	24	static
+fifo.c:27:9:fifoPush	24	static
+fifo.c:62:9:fifoPull	16	static

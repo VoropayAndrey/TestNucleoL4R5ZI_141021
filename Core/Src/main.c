@@ -38,6 +38,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stm32l4xx_it.h"
+
+#if RUN_MODE == TESTING_MODE
+#include "tests/tests.h"
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -124,7 +128,9 @@ int main(void)
   MX_FATFS_Init();
   MX_SAI2_Init();
   /* USER CODE BEGIN 2 */
-
+#if RUN_MODE == TESTING_MODE
+  testAll();
+#endif
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -132,6 +138,7 @@ int main(void)
   MX_FREERTOS_Init();
   /* Start scheduler */
   osKernelStart();
+
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */

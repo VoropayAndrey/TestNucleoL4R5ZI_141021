@@ -39,7 +39,9 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+#define TESTING_MODE			1
+#define RELESE_MODE				0
+#define RUN_MODE				TESTING_MODE
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
