@@ -1,0 +1,3 @@
+serialOutput.c:26:6:serialOutputInit	16	static
+serialOutput.c:33:6:serialOutputPrint	16	static
+serialOutput.c:39:6:serialOutputProcess	24	static

@@ -1,0 +1,3 @@
+serialInput.c:20:6:serialInputInit	0	static
+serialInput.c:26:6:serialInputProcessInterrupt	16	static
+serialInput.c:34:10:serialInputRead	24	static

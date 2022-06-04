@@ -1,0 +1,16 @@
+HRS.c:631:29:AcquireServiceInstance	16	static
+HRS.c:701:12:HRSRegisterService	64	static
+HRS.c:761:21:GATT_ServerEventCallback	80	static
+HRS.c:965:5:InitializeHRSModule	8	static
+HRS.c:983:6:CleanupHRSModule	16	static
+HRS.c:1022:13:HRS_Initialize_Service	24	static
+HRS.c:1055:13:HRS_Initialize_Service_Handle_Range	0	static
+HRS.c:1066:13:HRS_Cleanup_Service	24	static
+HRS.c:1110:22:HRS_Query_Number_Attributes	0	static
+HRS.c:1128:13:HRS_Set_Body_Sensor_Location	16	static
+HRS.c:1174:13:HRS_Query_Body_Sensor_Location	16	static
+HRS.c:1220:13:HRS_Read_Client_Configuration_Response	32	static
+HRS.c:1262:13:HRS_Notify_Heart_Rate_Measurement	48	static
+HRS.c:1374:13:HRS_Decode_Heart_Rate_Measurement	20	static
+HRS.c:1388:13:HRS_Decode_Body_Sensor_Location	0	static
+HRS.c:1403:13:HRS_Format_Heart_Rate_Control_Command	0	static

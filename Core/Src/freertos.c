@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "HCITRANS.h"            /* HCI Transport Prototypes/Constants.       */
+#include "HAL.h"
 #include "usart.h"
 #include "serialOutput.h"
 #include "serialInput.h"

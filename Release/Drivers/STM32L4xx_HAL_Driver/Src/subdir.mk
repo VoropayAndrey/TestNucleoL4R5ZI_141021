@@ -45,47 +45,6 @@ C_SRCS += \
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_sdmmc.c \
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usb.c 
 
-OBJS += \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dac.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dac_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_opamp.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_opamp_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pcd.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pcd_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sai.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sai_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sd.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sd_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_sdmmc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usb.o 
-
 C_DEPS += \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.d \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.d \
@@ -127,8 +86,49 @@ C_DEPS += \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_sdmmc.d \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usb.d 
 
+OBJS += \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dac.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dac_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_opamp.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_opamp_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pcd.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pcd_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sai.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sai_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sd.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sd_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_sdmmc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usb.o 
+
 
 # Each subdirectory must supply rules for building sources it contributes
 Drivers/STM32L4xx_HAL_Driver/Src/%.o: ../Drivers/STM32L4xx_HAL_Driver/Src/%.c Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -DUSE_HAL_DRIVER -DSTM32L4R5xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Bluetooth/Inc -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btpskrnl -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btvs -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/SBC/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAVD/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AUDIO/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVCTP/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/A2DP/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HDSET/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVRCP/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles -Os -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -DUSE_HAL_DRIVER -DSTM32L4R5xx -D__SUPPORT_LOW_ENERGY__ -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Bluetooth/Inc -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btpskrnl -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btvs -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/SBC/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAVD/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AUDIO/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVCTP/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/A2DP/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HDSET/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVRCP/include -I/Users/andrey/Documents/Common/Bluetooth/Stacks/bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles -I"/Users/andrey/Documents/Common/bluetopia/CC256x STM32 Bluetopia SDK/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HRS/include" -I"/Users/andrey/Documents/Common/bluetopia/CC256x STM32 Bluetopia SDK/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GATT/include" -I"/Users/andrey/Documents/Common/bluetopia/CC256x STM32 Bluetopia SDK/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAPS/include" -I"/Users/andrey/Documents/Common/bluetopia/CC256x STM32 Bluetopia SDK/v4.0.2.2/FreeRTOS/Bluetopia/profiles/DIS/include" -Os -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 

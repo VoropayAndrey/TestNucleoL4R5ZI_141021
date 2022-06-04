@@ -1,4 +1,7 @@
+"./Bluetooth/Src/DIS.o"
+"./Bluetooth/Src/GAPS.o"
 "./Bluetooth/Src/HCITRANS.o"
+"./Bluetooth/Src/HRS.o"
 "./Bluetooth/Src/HSPDemo.o"
 "./Core/Src/AUDIO.o"
 "./Core/Src/HAL.o"

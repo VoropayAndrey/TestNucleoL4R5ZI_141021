@@ -1,7 +1,7 @@
-HAL.c:130:6:CONSOLE_UART_IRQ_HANDLER	0	static
-HAL.c:153:6:HAL_ConfigureHardware	0	static
-HAL.c:194:6:HAL_LedOn	0	static
-HAL.c:202:6:HAL_LedOff	0	static
-HAL.c:211:6:HAL_LedToggle	0	static
-HAL.c:221:5:HAL_ConsoleRead	0	static
-HAL.c:266:5:HAL_ConsoleWrite	0	static
+HAL.c:132:6:CONSOLE_UART_IRQ_HANDLER	0	static
+HAL.c:155:6:HAL_ConfigureHardware	0	static
+HAL.c:196:6:HAL_LedOn	0	static
+HAL.c:204:6:HAL_LedOff	0	static
+HAL.c:213:6:HAL_LedToggle	0	static
+HAL.c:223:5:HAL_ConsoleRead	0	static
+HAL.c:270:5:HAL_ConsoleWrite	8	static
