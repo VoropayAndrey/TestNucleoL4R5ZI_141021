@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="s,S">
+<includepath>/Users/andrey/Documents/Common/bluetopia/CC256x STM32 Bluetopia SDK/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HRS/include</includepath>
+
+</language>
+<language name="C Source File">
+<includepath>Core/Inc</includepath>
+<includepath>Drivers/STM32L4xx_HAL_Driver/Inc</includepath>
+<includepath>Drivers/STM32L4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>Drivers/CMSIS/Device/ST/STM32L4xx/Include</includepath>
+<includepath>Drivers/CMSIS/Include</includepath>
+<includepath>FATFS/Target</includepath>
+<includepath>FATFS/App</includepath>
+<includepath>USB_DEVICE/App</includepath>
+<includepath>USB_DEVICE/Target</includepath>
+<includepath>Middlewares/Third_Party/FatFs/src</includepath>
+<includepath>Middlewares/ST/STM32_USB_Device_Library/Core/Inc</includepath>
+<includepath>Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</includepath>
+<includepath>Bluetooth/Inc</includepath>
+<includepath>Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
+<includepath>Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2</includepath>
+<includepath>Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/DIS/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAPS/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GATT/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HRS/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVRCP/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HDSET/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/A2DP/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVCTP/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AUDIO/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAVD/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/SBC/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btvs</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btpskrnl</includepath>
+
+</language>
+<language name="C++ Source File">
+<includepath>Core/Inc</includepath>
+<includepath>Drivers/STM32L4xx_HAL_Driver/Inc</includepath>
+<includepath>Drivers/STM32L4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>Drivers/CMSIS/Device/ST/STM32L4xx/Include</includepath>
+<includepath>Drivers/CMSIS/Include</includepath>
+<includepath>FATFS/Target</includepath>
+<includepath>FATFS/App</includepath>
+<includepath>USB_DEVICE/App</includepath>
+<includepath>USB_DEVICE/Target</includepath>
+<includepath>Middlewares/Third_Party/FatFs/src</includepath>
+<includepath>Middlewares/ST/STM32_USB_Device_Library/Core/Inc</includepath>
+<includepath>Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</includepath>
+<includepath>Bluetooth/Inc</includepath>
+<includepath>Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
+<includepath>Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2</includepath>
+<includepath>Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btpskrnl</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/btvs</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/SBC/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAVD/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AUDIO/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVCTP/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/A2DP/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HDSET/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/AVRCP/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/HRS/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GATT/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/GAPS/include</includepath>
+<includepath>bluetopia/v4.0.2.2/FreeRTOS/Bluetopia/profiles/DIS/include</includepath>
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="s,S">
+<macro>
+<name>DEBUG</name><value/>
+</macro>
+
+</language>
+<language name="C Source File">
+<macro>
+<name>DEBUG</name><value/>
+</macro>
+<macro>
+<name>USE_HAL_DRIVER</name><value/>
+</macro>
+<macro>
+<name>STM32L4R5xx</name><value/>
+</macro>
+<macro>
+<name>__SUPPORT_LOW_ENERGY__</name><value/>
+</macro>
+
+</language>
+<language name="C++ Source File">
+<macro>
+<name>DEBUG</name><value/>
+</macro>
+<macro>
+<name>USE_HAL_DRIVER</name><value/>
+</macro>
+<macro>
+<name>STM32L4R5xx</name><value/>
+</macro>
+<macro>
+<name>__SUPPORT_LOW_ENERGY__</name><value/>
+</macro>
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+</cdtprojectproperties>
